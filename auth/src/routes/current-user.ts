@@ -1,9 +1,13 @@
-import express from "express";
+import express, { Request, Response } from "express";
+import jwt from 'jsonwebtoken';
+import { currentUser } from "../middleware/current-user";
 
 const router = express.Router();
 
-router.get('/api/users/currentuser', (req, res) => {
-    res.send('hi there!');
-});
+router.get('/api/users/currentuser',
+    currentUser,
+    (req: Request, res: Response) => {
+        res.send({ currentUser: req.currentUser || null });
+    });
 
 export { router as currentUserRouter };
