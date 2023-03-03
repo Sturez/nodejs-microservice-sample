@@ -1,2 +1,5 @@
 # Auth app
 auth/node_modules
+
+#Client
+client/node_modules
