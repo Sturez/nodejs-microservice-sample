@@ -1,5 +1,8 @@
-# Auth app
+# Auth service
 auth/node_modules
+
+# Tickets service
+tickets/node_modules
 
 #Client
 client/node_modules

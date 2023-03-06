@@ -26,3 +26,13 @@ build:
         manual:
           - dest: .
             src: '**/*.js'
+            
+    - image: sturez/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: 'src/**/*.ts'
+            
