@@ -70,10 +70,9 @@ it('creates a ticket with valid input', async () => {
 
     expect(tickets).toEqual(0);
     const ticketTitle = 'this is valid';
-    const cookie = signin();
     const response = await request(app)
         .post('/api/tickets')
-        .set('Cookie', cookie)
+        .set('Cookie', signin())
         .send({
             title: ticketTitle,
             price: 10

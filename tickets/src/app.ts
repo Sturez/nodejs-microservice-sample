@@ -4,6 +4,9 @@ import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import { currentUser, errorHandler, NotFound } from '@sturez-org/common';
 import { createTicketRouter } from './routes/createTicket';
+import { getTicketRouter } from './routes/getTicket';
+import { indexTicketRouter } from './routes';
+import { updateTicketRouter } from './routes/updateTicket';
 
 
 const app = express();
@@ -19,6 +22,10 @@ app.use(cookieSession({
 app.use(currentUser);
 
 app.use(createTicketRouter);
+app.use(getTicketRouter);
+app.use(updateTicketRouter);
+app.use(indexTicketRouter);
+
 
 app.all('*', async (req, res) => {
     throw new NotFound();

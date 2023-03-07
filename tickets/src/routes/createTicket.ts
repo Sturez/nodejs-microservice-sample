@@ -22,11 +22,10 @@ router.post('/api/tickets',
             price, 
             userId: req.currentUser!.id
         });
-
+       
         await newTicket.save();
 
-        res.sendStatus(201).send(newTicket);
-
+        res.status(201).send(newTicket);
     });
 
 
