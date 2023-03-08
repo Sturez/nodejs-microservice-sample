@@ -10,3 +10,6 @@ client/node_modules
 #Common
 common/node_modules
 common/build
+
+# nats-test
+nats-test/node_modules

@@ -127,6 +127,7 @@ it('updates the ticket if it is a valid input', async () => {
 
     const newTitle = 'another valid title';
     const newPrice = 30;
+    
     const updateTicketResponse = await request(app)
         .put(`/api/tickets/${ticketId}`)
         .set('Cookie', cookie)
