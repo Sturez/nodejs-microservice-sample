@@ -1,6 +1,5 @@
 import nats from 'node-nats-streaming';
-import Publisher from './events/base-publisher';
-import TicketCreatedPublisher from './events/ticket-created.publisher';
+import TicketCreatedPublisher from './events/ticket-created-publisher';
 
 console.clear();
 
@@ -18,7 +17,8 @@ stan.on('connect', async () => {
         await publihser.publish({
             id: '123123',
             title: 'asdasd',
-            price: 20
+            price: 20,
+            userId: ''
         });
 
     } catch (error) {

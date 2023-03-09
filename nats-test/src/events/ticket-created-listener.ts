@@ -1,7 +1,5 @@
 import nats from 'node-nats-streaming';
-import Listener from "./base-listener";
-import { Subjects } from './subjects';
-import TicketCreatedEvent from './ticket-created-event';
+import { Subjects, Listener, TicketCreatedEvent } from "@sturez-org/common";
 
 export default class TicketCreatedListener extends Listener<TicketCreatedEvent> {
     readonly subject = Subjects.TicketCreated;
@@ -11,7 +9,7 @@ export default class TicketCreatedListener extends Listener<TicketCreatedEvent> 
         try {
             console.log('Event data!', data);
             msg.ack();
-            
+
         } catch (error) {
 
         }
