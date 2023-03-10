@@ -1,5 +1,4 @@
 import { currentUser, NotAuthorizedError, NotFound, requireAuth, validateRequest } from "@sturez-org/common";
-import { TicketUpdatedEvent } from "@sturez-org/common";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
