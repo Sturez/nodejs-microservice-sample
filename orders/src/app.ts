@@ -3,12 +3,11 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import { currentUser, errorHandler, NotFound } from '@sturez-org/common';
-// import { createTicketRouter } from './routes/createTicket';
-// import { getTicketRouter } from './routes/getTicket';
-// import { indexTicketRouter } from './routes';
-// import { updateTicketRouter } from './routes/updateTicket';
-
-
+import { orderListRouter } from './routes/order.list';
+import { orderCreateRouter } from './routes/order.crate';
+import { orderDeleteRouter } from './routes/order.delete';
+import { orderGetRouter } from './routes/order.get';
+ 
 const app = express();
 // we need the app to trust Nginx
 app.set('trust proxy', true);
@@ -21,10 +20,10 @@ app.use(cookieSession({
 
 app.use(currentUser);
 
-// app.use(createTicketRouter);
-// app.use(getTicketRouter);
-// app.use(updateTicketRouter);
-// app.use(indexTicketRouter);
+ app.use(orderListRouter);
+ app.use(orderCreateRouter);
+ app.use(orderDeleteRouter);
+ app.use(orderGetRouter);
 
 
 app.all('*', async (req, res) => {
