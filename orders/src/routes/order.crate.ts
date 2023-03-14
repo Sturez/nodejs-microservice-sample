@@ -28,10 +28,10 @@ router.post('/api/orders',
             throw new NotAuthorizedError('You should login to create a new order');
         }
         const { ticketId } = req.body;
-
+        
         // find the ticket the user is trying to order in the database
         const ticket = await Ticket.findById(ticketId);
-
+        
         if (!ticket) {
             throw new NotFound();
         }
@@ -58,7 +58,7 @@ router.post('/api/orders',
         await order.save();
         // publish order-created event
 
-        res.send({});
+        res.status(201).send({});
     });
 
 export { router as orderCreateRouter };
