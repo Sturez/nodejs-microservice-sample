@@ -7,7 +7,7 @@ import { orderListRouter } from './routes/order.list';
 import { orderCreateRouter } from './routes/order.crate';
 import { orderDeleteRouter } from './routes/order.delete';
 import { orderGetRouter } from './routes/order.get';
- 
+
 const app = express();
 // we need the app to trust Nginx
 app.set('trust proxy', true);
@@ -20,10 +20,10 @@ app.use(cookieSession({
 
 app.use(currentUser);
 
- app.use(orderListRouter);
- app.use(orderCreateRouter);
- app.use(orderDeleteRouter);
- app.use(orderGetRouter);
+app.use(orderGetRouter);
+app.use(orderListRouter);
+app.use(orderCreateRouter);
+app.use(orderDeleteRouter);
 
 
 app.all('*', async (req, res) => {

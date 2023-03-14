@@ -58,7 +58,7 @@ router.post('/api/orders',
         await order.save();
         // publish order-created event
 
-        res.status(201).send({});
+        res.status(201).send(order);
     });
 
 export { router as orderCreateRouter };
