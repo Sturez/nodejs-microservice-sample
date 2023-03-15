@@ -2,10 +2,11 @@ import { OrderStatus } from "@sturez-org/common";
 import mongoose from "mongoose";
 import { Order } from "./order";
 
-// we're not using the ticket model defined in the ticket service, 
+// we're not using the ticket model defined in the ticket service,
 // because this data-model can be different than the one created there
 
 interface TicketAttr {
+    id: string;
     title: string;
     price: number;
 
@@ -15,7 +16,6 @@ export interface TicketDoc extends mongoose.Document {
     title: string;
     price: number;
     isReserved(): Promise<boolean>;
-
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -43,7 +43,12 @@ const ticketSchema = new mongoose.Schema({
 });
 
 ticketSchema.statics.build = (attrs: TicketAttr) => {
-    return new Ticket(attrs);
+    return new Ticket({
+        _id: attrs.id,
+        ...attrs
+        // title: attrs.title,
+        // price: attrs.price
+    });
 };
 
 
