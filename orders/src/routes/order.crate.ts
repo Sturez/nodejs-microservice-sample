@@ -3,6 +3,8 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { Order } from '../../models/order';
 import { Ticket } from '../../models/ticket';
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -28,10 +30,10 @@ router.post('/api/orders',
             throw new NotAuthorizedError('You should login to create a new order');
         }
         const { ticketId } = req.body;
-        
+
         // find the ticket the user is trying to order in the database
         const ticket = await Ticket.findById(ticketId);
-        
+
         if (!ticket) {
             throw new NotFound();
         }
@@ -49,7 +51,7 @@ router.post('/api/orders',
         // build the order and save to the database
 
         const order = Order.build({
-            userId:req.currentUser.id,
+            userId: req.currentUser.id,
             status: OrderStatus.Created,
             expiresAt: expiration,
             ticket: ticket
@@ -57,6 +59,18 @@ router.post('/api/orders',
 
         await order.save();
         // publish order-created event
+
+        const publisher = new OrderCreatedPublisher(natsWrapper.client);
+        publisher.publish({
+            id: order.id,
+            status: order.status,
+            userId: order.userId,
+            expiresAt: order.expiresAt.toISOString(),
+            ticket: {
+                id: order.ticket.id,
+                price: order.ticket.price
+            }
+        });
 
         res.status(201).send(order);
     });

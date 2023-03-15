@@ -4,6 +4,7 @@ import request from "supertest";
 import { Order } from "../../../models/order";
 import { Ticket, TicketDoc } from "../../../models/ticket";
 import { app } from "../../app";
+import { natsWrapper } from "../../nats-wrapper";
 
 
 async function generateTicket() {
@@ -122,4 +123,25 @@ it('delete order for a particular user', async () => {
     expect(response.status).toEqual(204);
 });
 
-it.todo('emit an event to communicate ordercancelled event');
+
+it('emit an event to communicate ordercancelled event', async () => {
+
+    const user1Cookie = signin();
+
+    // creating 1 ticket
+    const { ticket } = await generateTicket();
+
+    // create 1 order for user 1
+    const { body: order1 } = await createOrder(ticket.id, user1Cookie);
+
+    // get the ticket for user 1
+    const response = await request(app)
+        .delete(`/api/orders/${order1.id}`)
+        .set('Cookie', user1Cookie)
+        .send();
+
+    // expect the order
+    expect(response.status).toEqual(204);
+    
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+});

@@ -4,6 +4,8 @@ import request from "supertest";
 import { Order } from "../../../models/order";
 import { Ticket, TicketDoc } from "../../../models/ticket";
 import { app } from "../../app";
+import { natsWrapper } from "../../nats-wrapper";
+
 
 async function generateTicket() {
     const ticket = Ticket.build({
@@ -108,4 +110,16 @@ it('reserves a ticket', async () => {
 
 });
 
-it.todo('emits an event to notify an order ');
+it('emits an event to notify an order', async () => {
+    const { ticket } = await generateTicket();
+
+    const cookie = signin();
+    const response = await request(app)
+        .post('/api/orders')
+        .set('Cookie', cookie)
+        .send({ ticketId: ticket.id });
+
+    expect(response.status).toEqual(201);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
