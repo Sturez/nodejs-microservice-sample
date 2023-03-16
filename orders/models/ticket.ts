@@ -53,6 +53,16 @@ const ticketSchema = new mongoose.Schema({
 ticketSchema.set('versionKey', 'version');
 ticketSchema.plugin(updateIfCurrentPlugin);
 
+// we should not use here the updateIfCurrentPlugin to auto-increment stuff when we save.
+// in this way we should workaround
+// ticketSchema.pre('save', function (done) {
+//     this.$where = {
+//         version: this.get('version') - 1 //this decrement should be the delta between version numbers
+//     };
+
+//     done();
+// });
+
 ticketSchema.statics.build = (attrs: TicketAttr) => {
     return new Ticket({
         _id: attrs.id,

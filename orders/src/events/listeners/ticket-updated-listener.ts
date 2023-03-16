@@ -17,6 +17,12 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
             throw new Error("Ticket not found");
         }
 
+        // we should not use the mongoose auto increment plugin
+        // in this way we are going to get the same ID & version from the event
+        
+        // const { title, price, version } = data;
+        // ticket.set({ title, price, version });
+        
         const { title, price } = data;
 
         ticket.set({ title, price });
