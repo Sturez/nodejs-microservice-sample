@@ -9,10 +9,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 
     async onMessage(data: TicketUpdatedEvent["data"], msg: Message): Promise<void> {
         //const ticket = await Ticket.findById(data.id);
-        const ticket = await Ticket.findOne({
-            _id: data.id,
-            version: data.version - 1
-        });
+        const ticket = await Ticket.findByEvent(data);
 
         // if we won't find the right version of the ticket, we throw
         // the error. this should grant tickets to be parsed in the right order
