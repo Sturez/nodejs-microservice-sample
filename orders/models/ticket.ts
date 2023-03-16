@@ -1,5 +1,6 @@
 import { OrderStatus } from "@sturez-org/common";
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { Order } from "./order";
 
 // we're not using the ticket model defined in the ticket service,
@@ -9,12 +10,13 @@ interface TicketAttr {
     id: string;
     title: string;
     price: number;
-
+    version: number;
 };
 
 export interface TicketDoc extends mongoose.Document {
     title: string;
     price: number;
+    version: number;
     isReserved(): Promise<boolean>;
 }
 
@@ -41,6 +43,9 @@ const ticketSchema = new mongoose.Schema({
         }
     }
 });
+
+ticketSchema.set('versionKey', 'version');
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 ticketSchema.statics.build = (attrs: TicketAttr) => {
     return new Ticket({
