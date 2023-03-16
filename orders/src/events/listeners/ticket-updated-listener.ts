@@ -14,6 +14,8 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
             version: data.version - 1
         });
 
+        // if we won't find the right version of the ticket, we throw
+        // the error. this should grant tickets to be parsed in the right order
         if (!ticket) {
             throw new Error("Ticket not found");
         }
