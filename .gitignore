@@ -4,6 +4,9 @@ auth/node_modules
 # Tickets service
 tickets/node_modules
 
+# Expiraion service
+expiration/node_modules
+
 # Orders service
 orders/node_modules
 
