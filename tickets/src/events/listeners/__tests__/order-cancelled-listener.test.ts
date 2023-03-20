@@ -49,7 +49,7 @@ it('cancels an Order', async () => {
 
     expect(updatedTicket?.orderId).not.toBeDefined();
 
-});
+}); 
 it('publishes an event', async () => {
     const { listener, data, msg } = await setup();
 

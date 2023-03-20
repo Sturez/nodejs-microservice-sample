@@ -1,4 +1,4 @@
-import { OrderCancelledEvent, OrderCreatedEvent, OrderStatus } from "@sturez-org/common";
+import { OrderCreatedEvent, OrderStatus } from "@sturez-org/common";
 import mongoose from "mongoose";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../../models/ticket";

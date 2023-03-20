@@ -1,4 +1,4 @@
-import { currentUser, NotAuthorizedError, NotFound, requireAuth, validateRequest } from "@sturez-org/common";
+import { BadRequestError, currentUser, NotAuthorizedError, NotFound, requireAuth, validateRequest } from "@sturez-org/common";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
@@ -24,6 +24,10 @@ router.put('/api/tickets/:id',
 
         if (!ticket) {
             throw new NotFound();
+        }
+
+        if(ticket.orderId){
+            throw new BadRequestError('The ticket is already reserved by another order.');
         }
 
         if (req.currentUser?.id !== ticket.userId)

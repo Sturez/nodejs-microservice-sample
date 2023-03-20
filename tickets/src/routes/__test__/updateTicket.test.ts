@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
+import { Ticket } from '../../models/ticket';
 import { natsWrapper } from '../../nats-wrapper';
 
 it('returns a 404 if the provided id does not exists', async () => {
@@ -171,4 +172,43 @@ it('publishes an event if a ticket is being updated', async () => {
         });
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
+
+it('rejects ticket update if the ticket is already reserved', async () => {
+    const cookie = signin();
+
+    // create a new ticket
+    const ticketTitle = 'this is valid';
+    const createTicket = await request(app)
+        .post('/api/tickets')
+        .set('Cookie', cookie)
+        .send({
+            title: ticketTitle,
+            price: 10
+        });
+
+    expect(createTicket.status).toEqual(201);
+    const ticketId = createTicket.body.id;
+    expect(ticketId).toBeDefined();
+
+    // change ticket OrderId property
+
+    const dbTicket = await Ticket.findById(ticketId);
+    dbTicket?.set({ orderId: new mongoose.Types.ObjectId().toHexString() });
+
+    await dbTicket?.save();
+
+    // edit the new ticket
+    const newTitle = 'another valid title';
+    const newPrice = 30;
+
+    const updateTicketResponse = await request(app)
+        .put(`/api/tickets/${ticketId}`)
+        .set('Cookie', cookie)
+        .send({
+            title: newTitle,
+            price: newPrice
+        });
+
+    expect(updateTicketResponse.statusCode).toEqual(400);
 });
