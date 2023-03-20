@@ -45,3 +45,12 @@ build:
           - dest: .
             src: 'src/**/*.ts'
             
+    - image: sturez/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: 'src/**/*.ts'
+            
