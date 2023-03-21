@@ -18,7 +18,7 @@ interface OrderDoc extends mongoose.Document {
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
-    build(order: OrderAttr): void;
+    build(order: OrderAttr): OrderDoc;
 }
 
 
@@ -45,7 +45,7 @@ const orderSchema = new mongoose.Schema({
     }
 });
 
-orderSchema.set('versionKey','version');
+orderSchema.set('versionKey', 'version');
 orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (attrs: OrderAttr) => {
