@@ -54,3 +54,12 @@ build:
           - dest: .
             src: 'src/**/*.ts'
             
+    - image: sturez/payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: 'src/**/*.ts'
+            

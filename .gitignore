@@ -13,6 +13,9 @@ orders/node_modules
 #Client
 client/node_modules
 
+#Payments
+payments/node_modules
+
 #Common
 common/node_modules
 common/build
