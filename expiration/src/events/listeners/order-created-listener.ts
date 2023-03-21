@@ -1,4 +1,4 @@
-import { Listener, OrderStatus, Subjects } from "@sturez-org/common";
+import { Listener, Subjects } from "@sturez-org/common";
 import { OrderCreatedEvent } from "@sturez-org/common/build/events/order-created-event";
 import { Message } from "node-nats-streaming";
 import { expirationQueue } from "../../queues/expiration-queue";
@@ -15,9 +15,11 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 
         expirationQueue.add({
             orderId: data.id
-        }, {
+        }, 
+        {
             delay: delay
-        });
+        }
+        );
 
         msg.ack();
     }
