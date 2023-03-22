@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
 import { Order } from '../../models/order';
+import { Payment } from '../../models/payment';
 import { stripe } from '../../stripe';
 
 jest.mock('../../stripe');
@@ -113,11 +114,13 @@ it('returns a 400 when purchasing a completed order', async () => {
 it('returns 201 with valid inputs', async () => {
     const orderId = new mongoose.Types.ObjectId().toHexString();
     const userId = new mongoose.Types.ObjectId().toHexString();
+    const price = Math.floor(Math.random() * 1000);
+
     const order = Order.build({
         id: orderId,
         userId: userId,
         version: 0,
-        price: 20,
+        price: price,
         status: OrderStatus.Created
     });
 
@@ -134,6 +137,17 @@ it('returns 201 with valid inputs', async () => {
     const chargeOptions = (stripe.charges.create as jest.Mock).mock.calls[0][0];
 
     expect(chargeOptions.currency).toEqual('usd');
-    expect(chargeOptions.amount).toEqual(order.price * 100);
+    expect(chargeOptions.amount).toEqual(price * 100);
     expect(chargeOptions.source).toEqual('tok_visa');
+
+    const payment = await Payment.findOne({
+        orderId: order.id
+    });
+
+    console.log(chargeOptions);
+
+    expect(payment).not.toBeNull();
+    expect(payment?.orderId).toEqual(orderId)
+
 });
+

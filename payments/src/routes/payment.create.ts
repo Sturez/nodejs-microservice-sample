@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { stripe } from "../stripe";
 import { Order } from "../models/order";
+import { Payment } from "../models/payment";
 
 
 const router = express.Router();
@@ -32,11 +33,20 @@ router.post('/api/payments',
         if (order.status === OrderStatus.Completed)
             throw new BadRequestError('The order is already completed');
 
-        await stripe.charges.create({
+        const charge = await stripe.charges.create({
             amount: order.price * 100, //price should be sent as cents
             currency: 'usd',
             source: token
         });
+
+        console.log(charge);
+
+        const payment = Payment.build({
+            orderId,
+            chargeId: charge.id
+        })
+
+        await payment.save();
 
         res.status(201).send({ success: true });
     });
