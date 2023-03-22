@@ -5,13 +5,17 @@ const Header = ({ currentUser }) => {
     const links = [
         !currentUser && { label: "Sign Up", href: '/auth/signup' },
         !currentUser && { label: "Sign In", href: '/auth/signin' },
+        currentUser && { label: "Sell Tickets", href: '/tickets/new' },
+        currentUser && { label: "My Orders", href: '/orders' },
         currentUser && { label: "Sign Out", href: '/auth/signout' },
     ].filter(links => links)
         .map(({ label, href }) => {
             return (
-                <Link key={href} href={href}>
-                    <li>{label}</li>
-                </Link>
+                <li className='nav-item'>
+                    <Link className='nav-link' key={href} href={href}>
+                        {label}
+                    </Link>
+                </li>
             )
         });
 
