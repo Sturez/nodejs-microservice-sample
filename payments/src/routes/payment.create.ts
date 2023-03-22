@@ -41,8 +41,6 @@ router.post('/api/payments',
             source: token
         });
 
-        console.log(charge);
-
         const payment = Payment.build({
             orderId,
             chargeId: charge.id
