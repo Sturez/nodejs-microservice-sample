@@ -9,8 +9,8 @@ const Header = ({ currenUser: currentUser }) => {
     ].filter(links => links)
         .map(({ label, href }) => {
             return (
-                <Link href={href}>
-                    <li key={href} >{label}</li>
+                <Link key={href} href={href}>
+                    <li>{label}</li>
                 </Link>
             )
         });
