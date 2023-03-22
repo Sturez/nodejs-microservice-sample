@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Fragment } from "react";
 
 const LandingPage = ({ currentUser, tickets: tickets }) => {
   if (!currentUser)
@@ -6,15 +7,17 @@ const LandingPage = ({ currentUser, tickets: tickets }) => {
 
   const ticketList = tickets.map(ticket => {
     return (
-      <tr key={ticket.id}>
-        <td>{ticket.title}</td>
-        <td>{ticket.price}</td>
-        <td>
-          <Link href={"/tickets/[ticketId]"} as={`/tickets/${ticket.id}`}>
-            Open
-          </Link>
-        </td>
-      </tr >);
+      ticket.orderId ?
+        <Fragment key={ticket.id}></Fragment> :
+        <tr key={ticket.id}>
+          <td>{ticket.title}</td>
+          <td>{ticket.price}</td>
+          <td>
+            <Link href={"/tickets/[ticketId]"} as={`/tickets/${ticket.id}`}>
+              Open
+            </Link>
+          </td>
+        </tr >);
   });
 
   return (
