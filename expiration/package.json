@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sturez-org/common": "^1.0.18",
+    "@sturez-org/common": "^1.0.19",
     "@types/bull": "^4.10.0",
     "bull": "^4.10.4",
     "node-nats-streaming": "^0.3.2",
