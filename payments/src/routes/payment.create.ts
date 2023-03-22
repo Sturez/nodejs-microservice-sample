@@ -1,6 +1,7 @@
 import { BadRequestError, currentUser, NotAuthorizedError, NotFound, OrderStatus, requireAuth, validateRequest } from "@sturez-org/common";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
+import { stripe } from "../stripe";
 import { Order } from "../models/order";
 
 
@@ -31,7 +32,11 @@ router.post('/api/payments',
         if (order.status === OrderStatus.Completed)
             throw new BadRequestError('The order is already completed');
 
-            
+        await stripe.charges.create({
+            amount: order.price * 100, //price should be sent as cents
+            currency: 'usd',
+            source: token
+        });
 
         res.status(201).send({ success: true });
     });
