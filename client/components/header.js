@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const Header = ({ currenUser: currentUser }) => {
+const Header = ({ currentUser }) => {
 
     const links = [
         !currentUser && { label: "Sign Up", href: '/auth/signup' },

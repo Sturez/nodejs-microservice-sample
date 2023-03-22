@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const LandingPage = ({ currenUser: currentUser, tickets: tickets }) => {
+const LandingPage = ({ currentUser, tickets: tickets }) => {
   if (!currentUser)
     return <h1>You are not signed in Sign Up!</h1>
 
