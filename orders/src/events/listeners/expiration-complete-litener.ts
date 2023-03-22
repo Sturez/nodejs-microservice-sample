@@ -15,6 +15,9 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
         if (!order)
             throw new Error("No order found with that id");
 
+        if(order.status === OrderStatus.Completed)
+            return msg.ack();
+
         order.set({
             status: OrderStatus.Cancelled
         });
