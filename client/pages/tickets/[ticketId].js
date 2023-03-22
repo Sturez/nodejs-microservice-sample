@@ -1,8 +1,21 @@
+import useRequest from "../../hooks/use-request";
+
 const TicketDetail = ({ ticket }) => {
+    const { doRequest, errors } = useRequest(
+        {
+            url: '/api/orders',
+            method: 'post',
+            data: { ticketId: ticket.id },
+            onSuccess: (order) => { console.log(order); }
+        }
+    );
 
     return (<div>
         <h1>{ticket.title}</h1>
         <h4>{ticket.price}</h4>
+        <button className="btn btn-primary"
+            onClick={doRequest}
+        >Purchase</button>
     </div>);
 }
 
