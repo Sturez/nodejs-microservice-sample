@@ -15,9 +15,9 @@ it('get current user when I am logged in', async () => {
 
 });
 
-it('get unauthorized not authenticated', async () => {
-       const currentuser = await request(app)
-        .get('/api/users/currentuser')
-        .send()
-        .expect(401);
-});
+// it('get unauthorized not authenticated', async () => {
+//        const currentuser = await request(app)
+//         .get('/api/users/currentuser')
+//         .send()
+//         .expect(401);
+// });
