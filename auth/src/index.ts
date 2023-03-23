@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import { app } from './app';
-const start = async () => {
 
+const start = async () => {
+    console.log('starting up...');
+    
     if (!process.env.JWT_KEY) {
         throw new Error("JWT Key env variable must be defined");
     }
