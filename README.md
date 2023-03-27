@@ -1,5 +1,8 @@
-# nodejs-microservice-sample
-Almost realistic exercise using NodeJS to create a portal where to sell tickets using microservice architecture. All services are made in NodeJS and are using mongoDb to store data, with the exception of the expiration service, which is handling queues of events using redis
+# Nodejs microservices sample
+Almost realistic exercise using NodeJS to create a portal where to sell tickets using microservice architecture. This exercise has been made while attending microservices training made by Stephen Grider. 
+
+## Description
+All services are made in NodeJS and are using mongoDb to store data, with the exception of the expiration service, which is handling queues of events using redis
 To simplify the demo and speed up the developments I've used NATS Streaming server, even thouh its going to be discontinued, it's a good representation of a real life stream service. 
 
 I am using NGINX Ingress Controller to handle pod's communications with the external you can find documentation here 
